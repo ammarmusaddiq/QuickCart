@@ -74,6 +74,8 @@ export const createUserOrder = inngest.createFunction(
   },
   { event: "order/created" },
   async ({ events }) => {
+    // try {
+    //   console.log("Events:", events);
     const orders = events.map((event) => {
       return {
         userId: event.data.userId,
@@ -81,12 +83,19 @@ export const createUserOrder = inngest.createFunction(
         amount: event.data.amount,
         address: event.data.address,
         date: event.data.date,
+        status: event.data.status || "Order Placed",
       };
     });
 
     await connectDB();
     await Order.insertMany(orders);
 
+    // console.log("Orders inserted:", result);
+
     return { success: true, processed: orders.length };
+    // } catch (error) {
+    //   console.error("Order creation failed:", error);
+    //   throw error; // Important for retries
+    // }
   }
 );
