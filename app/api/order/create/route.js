@@ -195,6 +195,8 @@ export async function POST(request) {
       },
     });
 
+    console.log("✅ Event sent to Inngest");
+
     const user = await User.findById(userId);
     user.cartItems = {};
     await user.save();
