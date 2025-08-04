@@ -149,10 +149,40 @@ export async function POST(request) {
       return NextResponse.json({ success: false, message: "Invalid Data" });
     }
 
-    const amount = await items.reduce(async (acc, item) => {
-      const product = await Product.findById(item.product);
-      return acc + product.offerPrice * item.quantity;
-    }, 0);
+    // debugger;
+
+    // const amount = await items.reduce(async (acc, item) => {
+    //   const product = await Product.findById(item.product);
+    //   return acc + product.offerPrice * item.quantity;
+    // }, 0);
+
+    //  Step 1: Collect all product IDs
+
+    const productIds = items.map((item) => item.product);
+
+    // Step 2: Fetch all products in one DB call
+    const products = await Product.find({ _id: { $in: productIds } });
+
+    // Step 3: Create a map for quick access
+    const productMap = {};
+    products.forEach((p) => {
+      productMap[p._id.toString()] = p;
+    });
+
+    // Step 4: Calculate total amount
+    let amount = 0;
+    for (let item of items) {
+      const product = productMap[item.product];
+      if (!product) {
+        return NextResponse.json({
+          success: false,
+          message: `Product with ID ${item.product} not found.`,
+        });
+      }
+      amount += product.offerPrice * item.quantity;
+    }
+
+    // debugger;
 
     await inngest.send({
       name: "order/created",
@@ -169,7 +199,7 @@ export async function POST(request) {
     user.cartItems = {};
     await user.save();
 
-    return NextResponse({ success: true, message: "Order Placed" });
+    return NextResponse.json({ success: true, message: "Order Placed" });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ success: false, message: error.message });
