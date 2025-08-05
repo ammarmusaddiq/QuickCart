@@ -18,17 +18,29 @@ const Navbar = () => {
         src={assets.logo}
         alt="logo"
       />
-      <div className="flex items-center gap-4 lg:gap-8 max-md:hidden">
-        <Link href="/" className="hover:text-gray-900 transition">
+      <div className="flex items-center gap-4 lg:gap-8 max-md:hidden ">
+        <Link
+          href="/"
+          className=" px-4 py-2 bg-sony rounded-full text-white hover:shadow-md hover:shadow-black transition duration-200"
+        >
           Home
         </Link>
-        <Link href="/all-products" className="hover:text-gray-900 transition">
+        <Link
+          href="/all-products"
+          className="px-4 py-2 bg-sony rounded-full text-white hover:shadow-md hover:shadow-black transition duration-200"
+        >
           Shop
         </Link>
-        <Link href="/" className="hover:text-gray-900 transition">
+        <Link
+          href="/"
+          className="px-4 py-2 bg-sony rounded-full text-white hover:shadow-md hover:shadow-black transition duration-200"
+        >
           About Us
         </Link>
-        <Link href="/" className="hover:text-gray-900 transition">
+        <Link
+          href="/"
+          className="px-4 py-2 bg-sony rounded-full text-white hover:shadow-md hover:shadow-black transition duration-200"
+        >
           Contact
         </Link>
 

@@ -10,9 +10,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        sony: "#003791",
       },
-      gridTemplateColumns:{
-        'auto': 'repeat(auto-fit, minmax(200px, 1fr))'
+      gridTemplateColumns: {
+        auto: "repeat(auto-fit, minmax(200px, 1fr))",
       },
     },
   },
