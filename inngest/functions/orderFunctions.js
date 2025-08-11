@@ -16,7 +16,7 @@ export const createUserOrder = inngest.createFunction(
   async ({ events }) => {
     // try {
     //   console.log("Events:", events);
-
+    debugger;
     console.log("🔥 Inngest: order/created triggered");
 
     const orders = events.map((event) => {

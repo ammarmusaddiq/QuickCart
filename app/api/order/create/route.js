@@ -139,9 +139,13 @@ import { NextResponse } from "next/server";
 import Product from "../../../../models/Product";
 import { inngest } from "../../../../config/inngest";
 import User from "../../../../models/User";
+import connectDB from "../../../../config/db";
+import Order from "../../../../models/Order";
 
 export async function POST(request) {
   try {
+    // debugger;
+    await connectDB();
     const { userId } = getAuth(request);
     const { address, items } = await request.json();
 
@@ -182,18 +186,26 @@ export async function POST(request) {
       amount += product.offerPrice * item.quantity;
     }
 
+    const newOrder = await Order.insertMany({
+      userId,
+      address,
+      items,
+      amount: amount + Math.floor(amount * 0.02), // adding 2% fee
+      date: Date.now(),
+    });
+
     // debugger;
 
-    await inngest.send({
-      name: "order/created",
-      data: {
-        userId,
-        address,
-        items,
-        amount: amount + Math.floor(amount * 0.02), // adding 2% fee
-        date: Date.now(),
-      },
-    });
+    // await inngest.send({
+    //   name: "order/created",
+    //   data: {
+    //     userId,
+    //     address,
+    //     items,
+    //     amount: amount + Math.floor(amount * 0.02), // adding 2% fee
+    //     date: Date.now(),
+    //   },
+    // });
 
     console.log("✅ Event sent to Inngest");
 

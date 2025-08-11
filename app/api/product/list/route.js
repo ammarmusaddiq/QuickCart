@@ -5,7 +5,7 @@ import connectDB from "../../../../config/db";
 export async function GET(request) {
   try {
     await connectDB();
-
+    debugger;
     const products = await Product.find({});
     return NextResponse.json({ success: true, products });
   } catch (error) {

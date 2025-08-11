@@ -100,7 +100,7 @@ const ProductList = () => {
           </div>
         </div>
       )}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
